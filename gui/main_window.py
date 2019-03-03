@@ -27,7 +27,7 @@ test_pass_button = tk.Button(buttons_frame, text="Test password", width=30, heig
 generate_pass_button = tk.Button(buttons_frame, text="Generate password", width=30, height=4)
 
 text = tk.Label(text_frame, text="Generate, store\n and classify passwords! \n\n"
-                                 "Master's deegree\n project by Matej Jularić."
+                                 "Master's degree\n project by Matej Jularić."
                                  "\n\nMentor: Željko Ilić"
                                  "\n\nCreated using python3, tkinter,"
                                  "\nsqlite3 and nltk."

@@ -1,10 +1,10 @@
 import os
 import nltk
-from model.training_models import *
-from db_init.training_db_initializer import TrainingDbInitializer
+from model.training_models_meter import *
+from db_init.training_db_initializer import TrainingDbInitializerMeter
 
 
-class GetStatistic:
+class GetPasswordStatistic:
 
     def __init__(self, password_file, db_path):
 
@@ -24,10 +24,6 @@ class GetStatistic:
         k = 0
 
         for i in range(main_iters):
-            #print("Main iteration number: " + str(i))
-            #print("k: " + str(k))
-            #print("till: " + str((i+1)*maximum))
-
             parsed_n_grams = []
 
             for j in range(k, (i + 1) * maximum):
@@ -50,10 +46,6 @@ class GetStatistic:
 
             k = (i + 1) * maximum
 
-        #print("Do the rest!")
-        #print("From: " + str(main_iters * maximum))
-        #print("To: " + str(len(lines)))
-
         parsed_n_grams = []
 
         for j in range(main_iters * maximum, len(lines)):
@@ -68,12 +60,13 @@ class GetStatistic:
                 parsed_n_grams.append(appender)
 
         self.store_to_db(nltk.FreqDist(parsed_n_grams), n)
-
-        progress_bar_var.set(100)
+        if progress_bar_var is not None and progress_bar is not None:
+            progress_bar_var.set(0)
+            progress_bar.update()
 
     def store_to_db(self, freq, n):
 
-        db_init = TrainingDbInitializer(self.db_path)
+        db_init = TrainingDbInitializerMeter(self.db_path)
         db = SqliteDatabase(self.db_path)
         db.connect()
         db.create_tables([NgramModel, NumberOfGrams])
