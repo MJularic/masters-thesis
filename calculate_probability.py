@@ -51,3 +51,6 @@ class CalculateProbability:
 
         print("Score for password: " + str(password_text) + " is " + str(abs(math.log2(probability_result))))
         return abs(math.log2(probability_result))
+
+pb = CalculateProbability("/home/mj/diplomski-rad/database/n-gram.db")
+pb.calculate_probability("Matej goes shopping")
