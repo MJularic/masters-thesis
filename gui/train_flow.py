@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import *
 from statistic.get_password_statistic import GetPasswordStatistic
+from statistic.get_word_statistic import GetWordStatistic
 from tkinter import messagebox
 from tkinter import ttk
 
@@ -39,7 +40,7 @@ class TrainFlow:
 
         unigram_radio.pack()
         bigram_radio.pack()
-        train_generator_button = Button(self.display, text="Train generator")
+        train_generator_button = Button(self.display, text="Train generator", command=self.train_generator)
         train_generator_button.pack(side=tk.RIGHT, padx=15)
         train_meter_button = Button(self.display, text="Train meter", command=self.train_meter)
         train_meter_button.pack(side=tk.LEFT, padx=15)
@@ -71,5 +72,14 @@ class TrainFlow:
 
         gs.create_statistic(num_gram, self.progress_var, self.progress_bar)
 
+        messagebox.showinfo("Info", "Training is done!")
+        self.progress_var.set(0)
+
+    def train_generator(self):
+        db_path = self.db_entry_var.get()
+        txt_path = self.txt_entry_var.get()
+
+        gw = GetWordStatistic(txt_path, db_path)
+        gw.create_statistic(self.progress_var, self.progress_bar)
         messagebox.showinfo("Info", "Training is done!")
         self.progress_var.set(0)

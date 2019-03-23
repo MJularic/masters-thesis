@@ -34,11 +34,11 @@ class CalculateProbability:
         num_of_bigrams = NumberOfGrams.get(NumberOfGrams.gram == 2)
         bigrams_count = num_of_bigrams.count
 
-        probability_result = 1
+        probability_result = 0
 
         first_character = NgramModel.get(NgramModel.ngram == unigrams_list[0])
 
-        probability_result = probability_result * (first_character.count / unigrams_count)
+        probability_result = probability_result + math.log2(first_character.count / unigrams_count)
 
         for i in range(len(bigrams_list)):
             unigram = NgramModel.get(NgramModel.ngram == unigrams_list[i])
@@ -47,10 +47,7 @@ class CalculateProbability:
             probability_unigram = unigram.count / unigrams_count
             probability_bigram = bigram.count / bigrams_count
 
-            probability_result = probability_result * (probability_bigram / probability_unigram)
+            probability_result = probability_result +  math.log2(probability_bigram / probability_unigram)
 
-        print("Score for password: " + str(password_text) + " is " + str(abs(math.log2(probability_result))))
-        return abs(math.log2(probability_result))
-
-pb = CalculateProbability("/home/mj/diplomski-rad/database/n-gram.db")
-pb.calculate_probability("Matej goes shopping")
+        print("Score for password: " + str(password_text) + " is " + str(abs(probability_result)))
+        return abs(probability_result)

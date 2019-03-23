@@ -60,7 +60,3 @@ class WordMarkov:
         choice = self.secure_random.choices(next_words, occurrence, k=1)[0]
 
         return choice
-
-
-wm = WordMarkov("/home/mj/diplomski-rad/database/word.db")
-print(wm.generate_password(4))

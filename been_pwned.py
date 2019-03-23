@@ -25,5 +25,5 @@ class BeenPwned:
         for line in lines:
             h, num_of_occurence = line.split(":")
             if (first_5_chars + h) == hash:
-                return num_of_occurence
+                return int(num_of_occurence)
         return 0
