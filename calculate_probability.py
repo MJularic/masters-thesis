@@ -5,9 +5,36 @@ import math
 
 
 class CalculateProbability:
+    ngrams = {}
 
     def __init__(self, db_path):
-        self.db_path = db_path
+        db_init = TrainingDbInitializerMeter(db_path)
+        db = SqliteDatabase(db_path)
+        db.connect()
+
+        all_ngrams = NgramModel.select()
+
+        for ngram in all_ngrams:
+            self.ngrams[ngram.ngram] = ngram.count
+
+        self.unigram_count = NumberOfGrams.get(NumberOfGrams.gram == 1).count
+        self.bigram_count = NumberOfGrams.get(NumberOfGrams.gram == 2).count
+        db.close()
+
+    def load_ngrams(self, db_path):
+        db_init = TrainingDbInitializerMeter(db_path)
+        db = SqliteDatabase(db_path)
+        db.connect()
+
+        ngrams = {}
+
+        all_ngrams = NgramModel.select()
+
+        for ngram in all_ngrams:
+            ngrams[ngram.ngram] = ngram.count
+
+        db.close()
+        return ngrams
 
     def calculate_probability(self, password_text):
         password_text_list = list(password_text)
@@ -24,30 +51,26 @@ class CalculateProbability:
         for gram in bigrams:
             bigrams_list.append("" + gram[0] + gram[1])
 
-        db_init = TrainingDbInitializerMeter(self.db_path)
-        db = SqliteDatabase(self.db_path)
-        db.connect()
-
-        num_of_unigrams = NumberOfGrams.get(NumberOfGrams.gram == 1)
-        unigrams_count = num_of_unigrams.count
-
-        num_of_bigrams = NumberOfGrams.get(NumberOfGrams.gram == 2)
-        bigrams_count = num_of_bigrams.count
-
         probability_result = 0
 
-        first_character = NgramModel.get(NgramModel.ngram == unigrams_list[0])
+        first_character_count = self.ngrams[unigrams_list[0]]
 
-        probability_result = probability_result + math.log2(first_character.count / unigrams_count)
+        probability_result = probability_result + math.log2(first_character_count / self.unigram_count)
+
 
         for i in range(len(bigrams_list)):
-            unigram = NgramModel.get(NgramModel.ngram == unigrams_list[i])
-            bigram = NgramModel.get(NgramModel.ngram == bigrams_list[i])
+            unigram_count = self.ngrams[unigrams_list[i]]
+            bigram_count = 1
+            try:
+                bigram_count = self.ngrams[bigrams_list[i]]
+            except Exception:
+                pass
+            probability_unigram = unigram_count / self.unigram_count
+            probability_bigram = bigram_count / self.bigram_count
 
-            probability_unigram = unigram.count / unigrams_count
-            probability_bigram = bigram.count / bigrams_count
+            probability_result = probability_result + math.log2(probability_bigram / probability_unigram)
 
-            probability_result = probability_result +  math.log2(probability_bigram / probability_unigram)
-
-        print("Score for password: " + str(password_text) + " is " + str(abs(probability_result)))
         return abs(probability_result)
+
+cp = CalculateProbability("database/n-gram.db")
+print(cp.calculate_probability("Diplomski1234!"))

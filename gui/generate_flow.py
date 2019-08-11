@@ -5,7 +5,7 @@ from alphanumeric_markov import AlphanumericMarkov
 from word_markov import WordMarkov
 
 
-class GenerateFlow():
+class GenerateFlow:
 
     def __init__(self, root):
         self.root = root

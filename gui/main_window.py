@@ -3,6 +3,7 @@ from gui.train_flow import TrainFlow
 from gui.test_flow import TestFlow
 from gui.generate_flow import GenerateFlow
 
+
 def train_button_click():
     tf = TrainFlow(root)
     tf.start()
@@ -16,6 +17,7 @@ def test_button_click():
 def generate_button_click():
     generate_flow = GenerateFlow(root)
     generate_flow.start()
+
 
 root = tk.Tk()
 

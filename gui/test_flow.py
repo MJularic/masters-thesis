@@ -5,7 +5,7 @@ from calculate_probability import CalculateProbability
 from tkinter import messagebox
 
 
-class TestFlow():
+class TestFlow:
 
     def __init__(self, root):
         self.root = root
@@ -55,9 +55,9 @@ class TestFlow():
         if score < 60:
             messagebox.showinfo("Password strength!", "Weak password!")
             return
-        if score > 60 and score < 80:
+        if score > 60 and score < 90:
             messagebox.showinfo("Password strength!", "Medium password!")
             return
-        if score > 80:
+        if score > 90:
             messagebox.showinfo("Password strength!", "Strong password!")
             return

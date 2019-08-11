@@ -12,10 +12,10 @@ class AlphanumericMarkov:
 
     #state 0 = lower_case, state 1 = upper_case, state 2 = digits, state 3 = special_characters
 
-    transition_matrix_default = [[1/16, 5/16, 5/16, 5/16],
-                                 [5/16, 1/16, 5/16, 5/16],
-                                 [5/16, 5/16, 1/16, 5/16],
-                                 [5/16, 5/16, 5/16, 1/16]]
+    transition_matrix_default = [[1/4, 1/4, 1/4, 1/4],
+                                 [1/4, 1/4, 1/4, 1/4],
+                                 [1/4, 1/4, 1/4, 1/4],
+                                 [1/4, 1/4, 1/4, 1/4]]
 
     def __init__(self, initial_state=None):
         secure_random = random.SystemRandom()
