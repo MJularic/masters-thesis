@@ -12,3 +12,21 @@ passwords. The goal of this paper is to create a solution that will allow the us
 to create a secure and easy to remember password. A classification system will be
 proposed to determine the likelihood of an attacker guessing a password if using
 a statistical attack based on Markov models.
+
+
+The original paper of the master's thesis is included in the folder **/paper**. It is important to note that it is written in Croatian.
+
+To install the needed dependencies run the provided install.sh script from the terminal.
+
+You will need **sudo** privileges to run the installation.
+
+```./install.sh ```
+
+
+After installing the necessary dependecies. One must run the **main.py** python file. 
+
+**Note that this has been tested on Ubuntu 18.04 and was written for python3**
+
+The GUI is just a prototype for testing out the functionalities.
+
+
